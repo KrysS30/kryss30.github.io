@@ -56,8 +56,25 @@ function scene1() {
 }
 
 function scene2() {
+  afficher("Le jardin. Un cabanon fermé à clé, un répondeur qui clignote.", [
+    { texte: "Écouter le répondeur", action: () => reaction(-20,
+        "Un message de maman !",
+        "Un message de maman... tu n'as pas décroché ?",
+        "Tu n'as pas décroché. Tu étais occupé.", combat) },
+    { texte: "Forcer le cabanon", action: () => reaction(-25,
+        "Allez, on essaie !",
+        "Il est fermé... mais on essaie quand même.",
+        "Ferme-le. Je t'en prie. Ferme-le.", combat) },
+    { texte: "Retourner dans la maison", action: () => reaction(10,
+        "Bonne idée, on est mieux au chaud.",
+        "On est mieux ici, non ?",
+        "Reste avec moi. Tout va bien.", combat) }
+  ]);
+}
+
+function combat() {
   parler("À suivre...");
-  afficher("Le jardin (scène 2 à écrire).", []);
+  afficher("Le combat contre le souvenir de Noé (à écrire).", []);
 }
 
 intro();
