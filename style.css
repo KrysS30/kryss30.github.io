@@ -1,0 +1,3 @@
+body { background:#111; color:#eee; font family:Georgia,serif; max width:600px; margin:40px auto; padding:0 16px; }
+#narrateur { color:#ffb347; font-style:italic; min-height:60px; margin: bottom 20px;}
+button { display:block; margin:10px 0; padding:10px; background:#222; color:#eee; border:1px solid #ffb347; cursor:pointer;}
