@@ -20,15 +20,14 @@ function parler(texte) {
   document.getElementById("personnage").style.display = "none";
   document.getElementById("bulle").style.display = "none";
 
-  zone.innerHTML = '<span id="texteNarrateur">Narrateur : </span>';
-  const texteAffiche = document.getElementById("texteNarrateur");
+  zone.textContent = "Narrateur : ";
 
   if (texte.length === 0) return;
 
   let i = 0;
 
   timer = setInterval(() => {
-    texteAffiche.textContent += texte[i];
+    zone.textContent += texte[i];
     i++;
 
     if (i >= texte.length) clearInterval(timer);
@@ -37,14 +36,14 @@ function parler(texte) {
 
 
 function glitcherNarrateur() {
-  const texte = document.getElementById("texteNarrateur");
+  const zone = document.getElementById("narrateur");
+  if (!zone) return;
 
-  if (!texte) return;
-
-  texte.classList.remove("glitch-leger");
-  void texte.offsetWidth;
-  texte.classList.add("glitch-leger");
+  zone.classList.remove("glitch-leger");
+  void zone.offsetWidth;
+  zone.classList.add("glitch-leger");
 }
+
 
 
 
