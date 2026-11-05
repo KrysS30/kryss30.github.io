@@ -58,7 +58,7 @@ button:focus-visible {
   transform: translateX(-50%);
   width: 220px;
   height: 190px;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   color: white;
