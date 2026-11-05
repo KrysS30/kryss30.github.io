@@ -93,11 +93,30 @@ function intro() {
 
 function introSuite(i) {
   parler(phrasesIntro[i]);
+
   const suite = (i < phrasesIntro.length - 1)
     ? { texte: "Continuer", action: () => introSuite(i + 1) }
-    : { texte: "Commencer", action: scene1 };
+    : { texte: "Commencer", action: questionNarrateur };
+
   afficher("", [suite]);
 }
+
+function questionNarrateur() {
+  parlerFrere("Qui es-tu ? Et pourquoi suis-je de retour à cet endroit ?");
+
+  afficher("", [
+    { texte: "Continuer", action: reponseNarrateur }
+  ]);
+}
+
+function reponseNarrateur() {
+  parler("Ne pose pas trop de questions. Cherche ton frère.");
+
+  afficher("", [
+    { texte: "Chercher Noé", action: scene1 }
+  ]);
+}
+
 
 function scene1() {
   const choix = [];
