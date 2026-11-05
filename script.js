@@ -16,7 +16,6 @@ function parler(texte) {
   const zone = document.getElementById("narrateur");
 
   clearInterval(timer);
-
   document.getElementById("personnage").style.display = "none";
   document.getElementById("bulle").style.display = "none";
 
@@ -25,7 +24,6 @@ function parler(texte) {
   if (texte.length === 0) return;
 
   let i = 0;
-
   timer = setInterval(() => {
     zone.textContent += texte[i];
     i++;
@@ -34,16 +32,11 @@ function parler(texte) {
   }, 40);
 }
 
-
-function glitcherNarrateur() {
-  const zone = document.getElementById("narrateur");
-  if (!zone) return;
-
-  zone.classList.remove("glitch-leger");
-  void zone.offsetWidth;
-  zone.classList.add("glitch-leger");
+function reaction(variation, douce, bizarre, inquiet, suite) {
+  sante += variation;
+  parler(version(douce, bizarre, inquiet));
+  afficher("", [{ texte: "Continuer", action: suite }]);
 }
-
 
 
 
@@ -102,6 +95,7 @@ function reaction(variation, douce, bizarre, inquiet, suite) {
   sante += variation;
   parler(version(douce, bizarre, inquiet));
   if (variation < 0) glitcherNarrateur();
+
   afficher("", [{ texte: "Continuer", action: suite }]);
 }
 
