@@ -43,9 +43,25 @@ function reaction(variation, douce, bizarre, inquiet, suite) {
   afficher("", [{ texte: "Continuer", action: suite }]);
 }
 
+const phrasesIntro = [
+  "Bonjour toi ! Oh, tu es là. Je t'attendais.",
+  "Ne fais pas cette tête, tout va bien se passer. Je suis là pour t'aider.",
+  "On va jouer à un petit jeu, tous les deux. Un jeu très simple.",
+  "Noé s'est caché. Et toi, tu vas le retrouver.",
+  "Tu ne te souviens plus où il est ? Ce n'est pas grave. Moi, je me souviens de tout.",
+  "Allez, viens. Et surtout, ne pose pas trop de questions, d'accord ?"
+];
+
 function intro() {
-  parler("Bonjour toi ! On va jouer à cache-cache. Noé s'est caché, et toi, tu vas le trouver.");
-  afficher("", [{ texte: "Commencer", action: scene1 }]);
+  introSuite(0);
+}
+
+function introSuite(i) {
+  parler(phrasesIntro[i]);
+  const suite = (i < phrasesIntro.length - 1)
+    ? { texte: "Continuer", action: () => introSuite(i + 1) }
+    : { texte: "Commencer", action: scene1 };
+  afficher("", [suite]);
 }
 
 function scene1() {
