@@ -108,7 +108,7 @@ function combat() {
     { texte: "« Je te cherchais partout ! »", action: finDeni },
     { texte: "« Je dois retourner jouer. »", action: finDeni }
   ]);
-}
+}      
 
 function finVerite() {
   document.body.style.background = "#223344";
