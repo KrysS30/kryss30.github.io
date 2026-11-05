@@ -8,11 +8,11 @@ body {
   line-height: 1.6;
 }
 
-#narrateur {
-  color: #ffb347;
-  font-style: italic;
-  min-height: 60px;
-  margin-bottom: 20px;
+#visual-novel {
+  position: relative;
+  min-height: 280px;
+  margin: 20px auto;
+  background: #222;
 }
 
 #scene {
@@ -21,10 +21,10 @@ body {
 }
 
 #jauge {
+  display: inline-block;
+  padding: 8px 12px;
   color: #ffb347;
   border: 1px solid #ffb347;
-  padding: 8px 12px;
-  display: inline-block;
 }
 
 button {
@@ -44,41 +44,8 @@ button:focus-visible {
   background: #ffb347;
   color: #111;
 }
-#visual-novel {
-  position: relative;
-  min-height: 280px;
-  margin: 20px auto;
-  background: #222;
-}
 
-#personnage {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 220px;
-  height: 190px;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  background: #444;
-}
-
-#bulle {
-  position: absolute;
-  z-index: 1;
-  top: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(80%, 400px);
-  min-height: 45px;
-  padding: 12px;
-  border-radius: 16px;
-  background: white;
-  color: #111;
-  text-align: center;
-}
+/* Boîte de dialogue */
 #narrateur,
 #bulle {
   position: fixed;
@@ -88,48 +55,52 @@ button:focus-visible {
   z-index: 5;
   box-sizing: border-box;
   min-height: 96px;
-  padding: 30px 22px 16px;
+  padding: 34px 22px 16px;
   color: #f4ead2;
-  background: rgba(15, 14, 15, 0.94);
+  background: rgba(15, 14, 15, 0.96);
   border: 3px double #d8c8a5;
-  box-shadow: 0 0 0 4px rgba(10, 9, 10, 0.85),
-              inset 0 0 14px rgba(0, 0, 0, 0.65);
+  box-shadow:
+    0 0 0 4px rgba(10, 9, 10, 0.85),
+    inset 0 0 14px rgba(0, 0, 0, 0.65);
   font-family: "Courier New", monospace;
   font-size: 20px;
   line-height: 1.35;
+  text-align: left;
+}
+
+#narrateur::before,
+#bulle::before {
+  position: absolute;
+  top: 5px;
+  left: 14px;
+  color: #d8c8a5;
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
 }
 
 #narrateur::before {
   content: "NARRATEUR";
-  position: absolute;
-  top: 7px;
-  left: 14px;
-  color: #d8c8a5;
-  font-size: 14px;
-  font-weight: bold;
-  letter-spacing: 2px;
 }
 
 #bulle::before {
   content: "GRAND FRÈRE";
-  position: absolute;
-  top: 7px;
-  left: 14px;
-  color: #d8c8a5;
-  font-size: 14px;
-  font-weight: bold;
-  letter-spacing: 2px;
 }
 
+/* Portrait à gauche de la boîte */
 #personnage {
   position: fixed;
   left: 3%;
   bottom: 20px;
   z-index: 6;
-  width: 145px;
-  height: 155px;
+  display: none;
   align-items: flex-end;
   justify-content: center;
+  box-sizing: border-box;
+  width: 145px;
+  height: 155px;
+  color: white;
   background: rgba(15, 14, 15, 0.92);
   border: 3px double #d8c8a5;
   box-shadow: 0 0 0 4px rgba(10, 9, 10, 0.85);
@@ -149,7 +120,7 @@ button:focus-visible {
     right: 4%;
     bottom: 16px;
     min-height: 90px;
-    padding: 30px 12px 14px;
+    padding: 32px 12px 14px;
     font-size: 16px;
   }
 
