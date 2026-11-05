@@ -20,6 +20,22 @@ function parler(texte) {
   }, 40);
 }
 
+function parlerFrere(texte) {
+  const zone = document.getElementById("bulle");
+
+  clearInterval(timer);
+  zone.textContent = "";
+
+  let i = 0;
+  timer = setInterval(() => {
+    zone.textContent += texte[i];
+    i++;
+
+    if (i >= texte.length) clearInterval(timer);
+  }, 40);
+}
+
+
 function majJauge() {
   document.getElementById("jauge").textContent = "Santé mentale : " + sante;
 }
@@ -44,13 +60,14 @@ function reaction(variation, douce, bizarre, inquiet, suite) {
 }
 
 const phrasesIntro = [
-  "Bonjour toi ! Oh, tu es là. Je t'attendais.",
-  "Ne fais pas cette tête, tout va bien se passer. Je suis là pour t'aider.",
-  "On va jouer à un petit jeu, tous les deux. Un jeu très simple.",
-  "Noé s'est caché. Et toi, tu vas le retrouver.",
-  "Tu ne te souviens plus où il est ? Ce n'est pas grave. Moi, je me souviens de tout.",
-  "Allez, viens. Et surtout, ne pose pas trop de questions, d'accord ?"
+  "Bonjour toi. Tu es enfin réveillé.",
+  "Tu peux rester ici. Il n'y a rien à voir dehors.",
+  "Tu entends ce bruit ? C'est juste le jeu qui commence.",
+  "La chambre te semble familière, non ? Pourtant, quelque chose a changé.",
+  "Noé s'est caché. On va le retrouver, comme la dernière fois.",
+  "Ne réfléchis pas trop. Suis ma voix, et tout ira bien."
 ];
+
 
 function intro() {
   introSuite(0);
@@ -65,21 +82,43 @@ function introSuite(i) {
 }
 
 function scene1() {
-  afficher("Un camion de jouet cassé, un lit vide, un téléphone par terre.", [
-    { texte: "Ramasser le jouet", action: () => reaction(-10,
-        "Oh, il est un peu abîmé !",
-        "Il était déjà abîmé...",
-        "Il était déjà cassé quand tu es parti.", scene2) },
-    { texte: "Regarder sous le lit", action: () => reaction(-15,
-        "Personne, tant pis !",
-        "Personne... Pourquoi tu cherches là ?",
-        "Pourquoi tu cherches là ? Tu sais bien qu'il n'est pas là.", scene2) },
-    { texte: "Appeler « Noé ! »", action: () => reaction(-20,
-        "Il fait semblant de ne pas t'entendre !",
-        "Il n'a pas l'air de répondre...",
-        "Il ne répond plus. C'est normal.", scene2) }
-  ]);
+  afficher(
+    "Tu reconnais cette chambre, mais quelque chose ne va pas. Le lit est vide. Un petit camion est posé sur le sol, une roue cassée. Un téléphone vibre près de la porte.\n\nLe narrateur parle doucement : « On devrait retrouver Noé. Après, on pourra rentrer. »",
+    [
+      {
+        texte: "Dire au narrateur : « Arrête de dire que c'est un jeu. »",
+        action: () => reaction(
+          -20,
+          "Bien sûr que c'est un jeu. Tu veux continuer, non ?",
+          "Tu n'as jamais aimé qu'on te pose des questions.",
+          "Ne me force pas à te rappeler ce qui s'est passé.",
+          scene2
+        )
+      },
+      {
+        texte: "Lire le message de maman sur le téléphone",
+        action: () => reaction(
+          -15,
+          "C'est sûrement juste un message ordinaire.",
+          "Pourquoi tu hésites ? Tu sais qui appelle.",
+          "Tu as vu son nom. Tu n'as quand même pas répondu.",
+          scene2
+        )
+      },
+      {
+        texte: "Prétendre que le camion n'est pas cassé",
+        action: () => reaction(
+          -10,
+          "Voilà, tout est comme avant !",
+          "Il manque une roue. Tu l'avais déjà remarqué, non ?",
+          "Tu ne peux pas réparer le souvenir en faisant semblant.",
+          scene2
+        )
+      }
+    ]
+  );
 }
+
 
 function scene2() {
   afficher("Le jardin. Un cabanon fermé à clé, un répondeur qui clignote.", [

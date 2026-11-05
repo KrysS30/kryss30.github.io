@@ -1,3 +1,81 @@
-body { background:#111; color:#eee; font-family:Georgia,serif; max-width:600px; margin:40px auto; padding:0 16px; }
-#narrateur { color:#ffb347; font-style:italic; min-height:60px; margin: bottom 20px;}
-button { display:block; margin:10px 0; padding:10px; background:#222; color:#eee; border:1px solid #ffb347; cursor:pointer;}
+body {
+  background: #111;
+  color: #eee;
+  font-family: Georgia, serif;
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 0 16px;
+  line-height: 1.6;
+}
+
+#narrateur {
+  color: #ffb347;
+  font-style: italic;
+  min-height: 60px;
+  margin-bottom: 20px;
+}
+
+#scene {
+  margin: 24px 0;
+  font-size: 1.1rem;
+}
+
+#jauge {
+  color: #ffb347;
+  border: 1px solid #ffb347;
+  padding: 8px 12px;
+  display: inline-block;
+}
+
+button {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  background: #222;
+  color: #eee;
+  border: 1px solid #ffb347;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:hover,
+button:focus-visible {
+  background: #ffb347;
+  color: #111;
+}
+#visual-novel {
+  position: relative;
+  min-height: 280px;
+  margin: 20px auto;
+  background: #222;
+}
+
+#personnage {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background: #444;
+}
+
+#bulle {
+  position: absolute;
+  z-index: 1;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(80%, 400px);
+  min-height: 45px;
+  padding: 12px;
+  border-radius: 16px;
+  background: white;
+  color: #111;
+  text-align: center;
+}
