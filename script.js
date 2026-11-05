@@ -75,17 +75,6 @@ function afficher(description, choix) {
   majJauge();
 }
 
-  const vraisChoix = choix.some(
-    c => c.texte !== "Continuer" && c.texte !== "Commencer"
-  );
-
-  if (vraisChoix) {
-    document.getElementById("personnage").style.display = "flex";
-  }
-
-  majJauge();
-}
-
 function reaction(variation, douce, bizarre, inquiet, suite) {
   sante += variation;
   parler(version(douce, bizarre, inquiet));
