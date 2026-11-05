@@ -22,11 +22,16 @@ function parler(texte) {
     zone.textContent += texte[i];
     i++;
     if (i >= texte.length) clearInterval(timer);
+    document.getElementById("personnage").style.display = "none";
+    document.getElementById("bulle").style.display = "none";
+
   }, 40);
 }
 
 function parlerFrere(texte) {
   const zone = document.getElementById("bulle");
+  document.getElementById("personnage").style.display = "flex";
+zone.style.display = "block";
 
   clearInterval(timer);
   zone.textContent = "";
@@ -43,6 +48,14 @@ function parlerFrere(texte) {
 
 function majJauge() {
   document.getElementById("jauge").textContent = "Santé mentale : " + sante;
+  const vraisChoix = choix.some(
+  c => c.texte !== "Continuer" && c.texte !== "Commencer"
+);
+
+if (vraisChoix) {
+  document.getElementById("personnage").style.display = "flex";
+}
+
 }
 
 function afficher(description, choix) {
