@@ -1,17 +1,21 @@
 let sante = 100;
 
-function version(douce, bizarre, inquiet) {
-  if (sante > 60) return douce;
-  if (sante >= 30) return bizarre;
-  return inquiet;
-}
-
 let camionVu = false;
 let telephoneVu = false;
 let litVu = false;
 
-
 let timer;
+
+function version(douce, bizarre, inquiet) {
+  if (sante > 70) return douce;
+  if (sante > 50) return bizarre;
+  return inquiet;
+}
+
+function majJauge() {
+  document.getElementById("jauge").textContent = "Santé mentale : " + sante;
+}
+
 function parler(texte) {
   const zone = document.getElementById("narrateur");
 
@@ -19,7 +23,7 @@ function parler(texte) {
   document.getElementById("personnage").style.display = "none";
   document.getElementById("bulle").style.display = "none";
 
-  zone.textContent = "Narrateur : ";
+  zone.textContent = "";
 
   if (texte.length === 0) return;
 
@@ -27,23 +31,14 @@ function parler(texte) {
   timer = setInterval(() => {
     zone.textContent += texte[i];
     i++;
-
     if (i >= texte.length) clearInterval(timer);
   }, 40);
 }
 
-function reaction(variation, douce, bizarre, inquiet, suite) {
-  sante += variation;
-  parler(version(douce, bizarre, inquiet));
-  afficher("", [{ texte: "Continuer", action: suite }]);
-}
-
-
-
 function parlerFrere(texte) {
   const zone = document.getElementById("bulle");
   document.getElementById("personnage").style.display = "flex";
-zone.style.display = "block";
+  zone.style.display = "block";
 
   clearInterval(timer);
   zone.textContent = "";
@@ -52,18 +47,9 @@ zone.style.display = "block";
   timer = setInterval(() => {
     zone.textContent += texte[i];
     i++;
-
     if (i >= texte.length) clearInterval(timer);
   }, 40);
 }
-
-
-function majJauge() {
-  document.getElementById("jauge").textContent =
-    "Santé mentale : " + sante;
-}
-
-
 
 function afficher(description, choix) {
   document.getElementById("scene").textContent = description;
@@ -85,22 +71,34 @@ function afficher(description, choix) {
   if (vraisChoix) {
     document.getElementById("personnage").style.display = "flex";
   }
+
+  majJauge();
 }
 
+  const vraisChoix = choix.some(
+    c => c.texte !== "Continuer" && c.texte !== "Commencer"
+  );
+
+  if (vraisChoix) {
+    document.getElementById("personnage").style.display = "flex";
+  }
+
+  majJauge();
+}
 
 function reaction(variation, douce, bizarre, inquiet, suite) {
   sante += variation;
   parler(version(douce, bizarre, inquiet));
- 
-
   afficher("", [{ texte: "Continuer", action: suite }]);
 }
-function version(douce, bizarre, inquiet) {
-  if (sante > 10) return douce;
-  if (sante > 5) return bizarre;
-  return inquiet;
-}
 
+function reinitialiser() {
+  sante = 100;
+  camionVu = false;
+  telephoneVu = false;
+  litVu = false;
+  document.body.style.background = "";
+}
 
 const phrasesIntro = [
   "Bonjour toi. Tu es enfin réveillé.",
@@ -110,7 +108,6 @@ const phrasesIntro = [
   "Noé s'est caché. On va le retrouver, comme la dernière fois.",
   "Ne réfléchis pas trop. Suis ma voix, et tout ira bien."
 ];
-
 
 function intro() {
   introSuite(0);
@@ -128,20 +125,13 @@ function introSuite(i) {
 
 function questionNarrateur() {
   parlerFrere("Qui es-tu ? Et pourquoi suis-je de retour à cet endroit ?");
-
-  afficher("", [
-    { texte: "Continuer", action: reponseNarrateur }
-  ]);
+  afficher("", [{ texte: "Continuer", action: reponseNarrateur }]);
 }
 
 function reponseNarrateur() {
   parler("Ne pose pas trop de questions. Cherche ton frère.");
-
-  afficher("", [
-    { texte: "Chercher Noé", action: scene1 }
-  ]);
+  afficher("", [{ texte: "Chercher Noé", action: scene1 }]);
 }
-
 
 function scene1() {
   const choix = [];
@@ -153,13 +143,11 @@ function scene1() {
     description += " Tu as déjà remarqué certains détails.";
   }
 
-  // Examiner le petit camion
   if (!camionVu) {
     choix.push({
       texte: "Examiner le petit camion",
       action: () => {
         camionVu = true;
-
         reaction(
           -10,
           "Le camion a une roue cassée. C'est celui de Noé.",
@@ -171,13 +159,11 @@ function scene1() {
     });
   }
 
-  // Regarder le téléphone
   if (!telephoneVu) {
     choix.push({
       texte: "Regarder le téléphone qui vibre",
       action: () => {
         telephoneVu = true;
-
         reaction(
           -10,
           "Un message de maman. Elle demande où vous êtes.",
@@ -189,13 +175,11 @@ function scene1() {
     });
   }
 
-  // Examiner le lit
   if (!litVu) {
     choix.push({
       texte: "Regarder le lit vide",
       action: () => {
         litVu = true;
-
         reaction(
           -10,
           "Un oreiller est tombé par terre. Quelqu'un a dû se lever rapidement.",
@@ -207,16 +191,10 @@ function scene1() {
     });
   }
 
-  // Le joueur choisit lui-même quand sortir.
-  choix.push({
-    texte: "Sortir de la chambre",
-    action: scene2
-  });
+  choix.push({ texte: "Sortir de la chambre", action: scene2 });
 
   afficher(description, choix);
 }
-
-
 
 function scene2() {
   afficher("Le jardin. Un cabanon fermé à clé, un répondeur qui clignote.", [
@@ -245,7 +223,7 @@ function combat() {
     { texte: "« Je te cherchais partout ! »", action: finDeni },
     { texte: "« Je dois retourner jouer. »", action: finDeni }
   ]);
-}      
+}
 
 function finVerite() {
   document.body.style.background = "#223344";
@@ -256,16 +234,15 @@ function finVerite() {
 }
 
 function finDeni() {
-  sante = 100;
-  parler("Bonjour toi ! On va jouer à cache-cache. Noé s'est caché, et toi, tu vas le trouver.");
+  reinitialiser();
+  parler("Bonjour toi. Tu es enfin réveillé.");
   afficher("Tout recommence, comme si rien ne s'était passé. FIN : Déni", [
     { texte: "Jouer encore", action: scene1 }
   ]);
 }
 
 function recommencer() {
-  sante = 100;
-  document.body.style.background = "";
+  reinitialiser();
   intro();
 }
 
