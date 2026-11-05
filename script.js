@@ -14,19 +14,41 @@ let litVu = false;
 let timer;
 function parler(texte) {
   const zone = document.getElementById("narrateur");
+
   clearInterval(timer);
+
+  // Cacher le frère pendant que le narrateur parle.
+  document.getElementById("personnage").style.display = "none";
+  document.getElementById("bulle").style.display = "none";
+
   zone.textContent = "Narrateur : ";
+
   if (texte.length === 0) return;
+
   let i = 0;
+
   timer = setInterval(() => {
     zone.textContent += texte[i];
     i++;
-    if (i >= texte.length) clearInterval(timer);
-    document.getElementById("personnage").style.display = "none";
-    document.getElementById("bulle").style.display = "none";
 
+    if (i >= texte.length) clearInterval(timer);
   }, 40);
 }
+
+function glitcherNarrateur() {
+  const texte = document.getElementById("narrateur");
+
+  texte.classList.remove("glitch-leger");
+  void texte.offsetWidth;
+  texte.classList.add("glitch-leger");
+
+  texte.addEventListener(
+    "animationend",
+    () => texte.classList.remove("glitch-leger"),
+    { once: true }
+  );
+}
+
 
 function parlerFrere(texte) {
   const zone = document.getElementById("bulle");
@@ -47,33 +69,42 @@ zone.style.display = "block";
 
 
 function majJauge() {
-  document.getElementById("jauge").textContent = "Santé mentale : " + sante;
-  const vraisChoix = choix.some(
-  c => c.texte !== "Continuer" && c.texte !== "Commencer"
-);
+  document.getElementById("jauge").textContent =
+    "Santé mentale : " + sante;
+}
 
 if (vraisChoix) {
   document.getElementById("personnage").style.display = "flex";
 }
 
-}
-
 function afficher(description, choix) {
   document.getElementById("scene").textContent = description;
+
   const zone = document.getElementById("choix");
   zone.innerHTML = "";
+
   for (const c of choix) {
     const b = document.createElement("button");
     b.textContent = c.texte;
     b.onclick = c.action;
     zone.appendChild(b);
   }
+
+  const vraisChoix = choix.some(
+    c => c.texte !== "Continuer" && c.texte !== "Commencer"
+  );
+
+  if (vraisChoix) {
+    document.getElementById("personnage").style.display = "flex";
+  }
+
   majJauge();
 }
 
 function reaction(variation, douce, bizarre, inquiet, suite) {
   sante += variation;
   parler(version(douce, bizarre, inquiet));
+  if (variation < 0) glitcherNarrateur();
   afficher("", [{ texte: "Continuer", action: suite }]);
 }
 
