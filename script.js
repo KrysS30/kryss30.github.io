@@ -6,8 +6,18 @@ function version(douce, bizarre, inquiet) {
   return inquiet;
 }
 
+let timer;
 function parler(texte) {
-  document.getElementById("narrateur").textContent = "Narrateur : " + texte;
+  const zone = document.getElementById("narrateur");
+  clearInterval(timer);
+  zone.textContent = "Narrateur : ";
+  if (texte.length === 0) return;
+  let i = 0;
+  timer = setInterval(() => {
+    zone.textContent += texte[i];
+    i++;
+    if (i >= texte.length) clearInterval(timer);
+  }, 40);
 }
 
 function majJauge() {
@@ -73,8 +83,37 @@ function scene2() {
 }
 
 function combat() {
-  parler("À suivre...");
-  afficher("Le combat contre le souvenir de Noé (à écrire).", []);
+  parler(version(
+    "Oh, regarde, Noé est là ! Dis-lui bonjour !",
+    "Noé est là... Il te regarde depuis un moment, tu ne trouves pas ?",
+    "Il est là. Ne l'écoute pas. Reste avec moi."));
+  afficher("Noé apparaît, silencieux. Il te demande : « Tu étais où ? »", [
+    { texte: "« J'étais sur mon téléphone. Je devais te surveiller. »", action: finVerite },
+    { texte: "« Je te cherchais partout ! »", action: finDeni },
+    { texte: "« Je dois retourner jouer. »", action: finDeni }
+  ]);
+}
+
+function finVerite() {
+  document.body.style.background = "#223344";
+  parler("...");
+  afficher("Le Narrateur ne dit plus rien. Noé hoche la tête, et la maison s'éclaire doucement. Tu as dit la vérité. FIN : Vérité", [
+    { texte: "Rejouer", action: recommencer }
+  ]);
+}
+
+function finDeni() {
+  sante = 100;
+  parler("Bonjour toi ! On va jouer à cache-cache. Noé s'est caché, et toi, tu vas le trouver.");
+  afficher("Tout recommence, comme si rien ne s'était passé. FIN : Déni", [
+    { texte: "Jouer encore", action: scene1 }
+  ]);
+}
+
+function recommencer() {
+  sante = 100;
+  document.body.style.background = "";
+  intro();
 }
 
 intro();
