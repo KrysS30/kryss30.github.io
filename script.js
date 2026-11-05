@@ -63,9 +63,7 @@ function majJauge() {
     "Santé mentale : " + sante;
 }
 
-if (vraisChoix) {
-  document.getElementById("personnage").style.display = "flex";
-}
+
 
 function afficher(description, choix) {
   document.getElementById("scene").textContent = description;
@@ -87,17 +85,22 @@ function afficher(description, choix) {
   if (vraisChoix) {
     document.getElementById("personnage").style.display = "flex";
   }
-
-  majJauge();
 }
+
 
 function reaction(variation, douce, bizarre, inquiet, suite) {
   sante += variation;
   parler(version(douce, bizarre, inquiet));
-  if (variation < 0) glitcherNarrateur();
+ 
 
   afficher("", [{ texte: "Continuer", action: suite }]);
 }
+function version(douce, bizarre, inquiet) {
+  if (sante > 10) return douce;
+  if (sante > 5) return bizarre;
+  return inquiet;
+}
+
 
 const phrasesIntro = [
   "Bonjour toi. Tu es enfin réveillé.",
