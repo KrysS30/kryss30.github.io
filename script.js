@@ -6,6 +6,11 @@ function version(douce, bizarre, inquiet) {
   return inquiet;
 }
 
+let camionVu = false;
+let telephoneVu = false;
+let litVu = false;
+
+
 let timer;
 function parler(texte) {
   const zone = document.getElementById("narrateur");
@@ -82,42 +87,78 @@ function introSuite(i) {
 }
 
 function scene1() {
-  afficher(
-    "Tu reconnais cette chambre, mais quelque chose ne va pas. Le lit est vide. Un petit camion est posé sur le sol, une roue cassée. Un téléphone vibre près de la porte.\n\nLe narrateur parle doucement : « On devrait retrouver Noé. Après, on pourra rentrer. »",
-    [
-      {
-        texte: "Dire au narrateur : « Arrête de dire que c'est un jeu. »",
-        action: () => reaction(
-          -20,
-          "Bien sûr que c'est un jeu. Tu veux continuer, non ?",
-          "Tu n'as jamais aimé qu'on te pose des questions.",
-          "Ne me force pas à te rappeler ce qui s'est passé.",
-          scene2
-        )
-      },
-      {
-        texte: "Lire le message de maman sur le téléphone",
-        action: () => reaction(
-          -15,
-          "C'est sûrement juste un message ordinaire.",
-          "Pourquoi tu hésites ? Tu sais qui appelle.",
-          "Tu as vu son nom. Tu n'as quand même pas répondu.",
-          scene2
-        )
-      },
-      {
-        texte: "Prétendre que le camion n'est pas cassé",
-        action: () => reaction(
+  const choix = [];
+
+  let description =
+    "Tu es dans la chambre. Le lit est défait. Un petit camion est posé sur le sol, une roue cassée. Près de la porte, un téléphone vibre. La chambre est silencieuse.";
+
+  if (camionVu || telephoneVu || litVu) {
+    description += " Tu as déjà remarqué certains détails.";
+  }
+
+  // Examiner le petit camion
+  if (!camionVu) {
+    choix.push({
+      texte: "Examiner le petit camion",
+      action: () => {
+        camionVu = true;
+
+        reaction(
           -10,
-          "Voilà, tout est comme avant !",
-          "Il manque une roue. Tu l'avais déjà remarqué, non ?",
-          "Tu ne peux pas réparer le souvenir en faisant semblant.",
-          scene2
-        )
+          "Le camion a une roue cassée. C'est celui de Noé.",
+          "Tu te souviens de ce camion... mais pas de la dernière fois où tu l'as vu.",
+          "La roue est cassée. Tu aurais dû faire attention à lui.",
+          scene1
+        );
       }
-    ]
-  );
+    });
+  }
+
+  // Regarder le téléphone
+  if (!telephoneVu) {
+    choix.push({
+      texte: "Regarder le téléphone qui vibre",
+      action: () => {
+        telephoneVu = true;
+
+        reaction(
+          -10,
+          "Un message de maman. Elle demande où vous êtes.",
+          "Le téléphone vibre encore. Pourquoi tu ne réponds pas ?",
+          "Tu n'as pas répondu à maman. Tu sais pourquoi.",
+          scene1
+        );
+      }
+    });
+  }
+
+  // Examiner le lit
+  if (!litVu) {
+    choix.push({
+      texte: "Regarder le lit vide",
+      action: () => {
+        litVu = true;
+
+        reaction(
+          -10,
+          "Un oreiller est tombé par terre. Quelqu'un a dû se lever rapidement.",
+          "Le lit est défait. Tu as l'impression que quelqu'un était là.",
+          "Il n'y a personne dans le lit. Tu le sais.",
+          scene1
+        );
+      }
+    });
+  }
+
+  // Le joueur choisit lui-même quand sortir.
+  choix.push({
+    texte: "Sortir de la chambre",
+    action: scene2
+  });
+
+  afficher(description, choix);
 }
+
 
 
 function scene2() {
