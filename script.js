@@ -17,37 +17,35 @@ function parler(texte) {
 
   clearInterval(timer);
 
-  // Cacher le frère pendant que le narrateur parle.
   document.getElementById("personnage").style.display = "none";
   document.getElementById("bulle").style.display = "none";
 
-  zone.textContent = "Narrateur : ";
+  zone.innerHTML = '<span id="texteNarrateur">Narrateur : </span>';
+  const texteAffiche = document.getElementById("texteNarrateur");
 
   if (texte.length === 0) return;
 
   let i = 0;
 
   timer = setInterval(() => {
-    zone.textContent += texte[i];
+    texteAffiche.textContent += texte[i];
     i++;
 
     if (i >= texte.length) clearInterval(timer);
   }, 40);
 }
 
+
 function glitcherNarrateur() {
-  const texte = document.getElementById("narrateur");
+  const texte = document.getElementById("texteNarrateur");
+
+  if (!texte) return;
 
   texte.classList.remove("glitch-leger");
   void texte.offsetWidth;
   texte.classList.add("glitch-leger");
-
-  texte.addEventListener(
-    "animationend",
-    () => texte.classList.remove("glitch-leger"),
-    { once: true }
-  );
 }
+
 
 
 function parlerFrere(texte) {

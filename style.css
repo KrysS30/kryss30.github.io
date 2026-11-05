@@ -131,13 +131,15 @@ button:focus-visible {
     height: 90px;
   }
 }
-#narrateur.glitch-leger {
+#texteNarrateur.glitch-leger {
+  display: inline-block;
   animation: glitchNarrateur 0.25s steps(2, end);
 }
 
 @keyframes glitchNarrateur {
-  0%   { text-shadow: none; }
-  35%  { text-shadow: 1px 0 #b8a5ff, -1px 0 #ff8d8d; }
-  70%  { text-shadow: -1px 0 #b8a5ff, 1px 0 #ff8d8d; }
-  100% { text-shadow: none; }
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-1px); }
+  50% { transform: translateX(1px); }
+  75% { transform: translateX(-1px); }
 }
+
