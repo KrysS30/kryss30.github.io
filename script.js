@@ -16,12 +16,25 @@ function majJauge() {
   document.getElementById("jauge").textContent = "Santé mentale : " + sante;
 }
 
+function decorImage(fichier) {
+  const scene = document.getElementById("visual-novel");
+  scene.style.backgroundImage = 'url("images/' + fichier + '")';
+}
+
+function silence() {
+  clearInterval(timer);
+  document.getElementById("narrateur").style.display = "none";
+  document.getElementById("personnage").style.display = "none";
+  document.getElementById("bulle").style.display = "none";
+}
+
 function parler(texte) {
   const zone = document.getElementById("narrateur");
 
   clearInterval(timer);
   document.getElementById("personnage").style.display = "none";
   document.getElementById("bulle").style.display = "none";
+  zone.style.display = "block";
 
   zone.textContent = "";
 
@@ -37,6 +50,7 @@ function parler(texte) {
 
 function parlerFrere(texte) {
   const zone = document.getElementById("bulle");
+  document.getElementById("narrateur").style.display = "none";
   document.getElementById("personnage").style.display = "flex";
   zone.style.display = "block";
 
@@ -86,7 +100,6 @@ function reinitialiser() {
   camionVu = false;
   telephoneVu = false;
   litVu = false;
-  document.body.style.background = "";
 }
 
 const phrasesIntro = [
@@ -99,6 +112,7 @@ const phrasesIntro = [
 ];
 
 function intro() {
+  decorImage("chambre.png");
   introSuite(0);
 }
 
@@ -123,6 +137,8 @@ function reponseNarrateur() {
 }
 
 function scene1() {
+  decorImage(sante > 80 ? "chambre.png" : "chambre-sombre.png");
+
   const choix = [];
 
   let description =
@@ -180,54 +196,63 @@ function scene1() {
     });
   }
 
-  choix.push({ texte: "Sortir de la chambre", action: scene2 });
+  choix.push({ texte: "Sortir de la chambre", action: sortieChambre });
 
   afficher(description, choix);
 }
 
+function sortieChambre() {
+  parlerFrere("Mais qu'est-ce qu'il se passe ?");
+  afficher("", [{ texte: "Continuer", action: scene2 }]);
+}
+
 function scene2() {
+  decorImage("cabanon.png");
   afficher("Le jardin. Un cabanon fermé à clé, un répondeur qui clignote.", [
     { texte: "Écouter le répondeur", action: () => reaction(-20,
         "Un message de maman !",
         "Un message de maman... tu n'as pas décroché ?",
-        "Tu n'as pas décroché. Tu étais occupé.", combat) },
+        "Tu n'as pas décroché. Tu étais occupé.", apparitionNoe) },
     { texte: "Forcer le cabanon", action: () => reaction(-25,
         "Allez, on essaie !",
         "Il est fermé... mais on essaie quand même.",
-        "Ferme-le. Je t'en prie. Ferme-le.", combat) },
+        "Ferme-le. Je t'en prie. Ferme-le.", apparitionNoe) },
     { texte: "Retourner dans la maison", action: () => reaction(10,
         "Bonne idée, on est mieux au chaud.",
         "On est mieux ici, non ?",
-        "Reste avec moi. Tout va bien.", combat) }
+        "Reste avec moi. Tout va bien.", apparitionNoe) }
   ]);
 }
 
-function combat() {
-  parler(version(
-    "Oh, regarde, Noé est là ! Dis-lui bonjour !",
-    "Noé est là... Il te regarde depuis un moment, tu ne trouves pas ?",
-    "Il est là. Ne l'écoute pas. Reste avec moi."));
-  afficher("Noé apparaît, silencieux. Il te demande : « Tu étais où ? »", [
-    { texte: "« J'étais sur mon téléphone. Je devais te surveiller. »", action: finVerite },
-    { texte: "« Je te cherchais partout ! »", action: finDeni },
-    { texte: "« Je dois retourner jouer. »", action: finDeni }
+function apparitionNoe() {
+  silence();
+  afficher("Tu vois ton frère au loin. Tu essaies de l'interpeller.", [
+    { texte: "Continuer", action: appelNoe }
   ]);
 }
 
-function finVerite() {
-  document.body.style.background = "#223344";
-  parler("...");
-  afficher("Le Narrateur ne dit plus rien. Noé hoche la tête, et la maison s'éclaire doucement. Tu as dit la vérité. FIN : Vérité", [
-    { texte: "Rejouer", action: recommencer }
+function appelNoe() {
+  parlerFrere("Noé !");
+  afficher("Tu vois ton frère au loin. Tu essaies de l'interpeller.", [
+    { texte: "Continuer", action: noeDisparait }
   ]);
 }
 
-function finDeni() {
-  reinitialiser();
-  parler("Bonjour toi. Tu es enfin réveillé.");
-  afficher("Tout recommence, comme si rien ne s'était passé. FIN : Déni", [
-    { texte: "Jouer encore", action: scene1 }
+function noeDisparait() {
+  silence();
+  afficher("Noé ne répond pas. Il disparaît au loin. Tu cours à sa poursuite.", [
+    { texte: "Continuer", action: finNarrateur }
   ]);
+}
+
+function finNarrateur() {
+  parler("Tu ne te souviens vraiment de rien ?");
+  afficher("", [{ texte: "Continuer", action: aSuivre }]);
+}
+
+function aSuivre() {
+  afficher("À SUIVRE...", [{ texte: "Rejouer", action: recommencer }]);
+  silence();
 }
 
 function recommencer() {
