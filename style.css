@@ -1,23 +1,71 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background: #111;
   color: #eee;
   font-family: Georgia, serif;
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 0 16px 220px;
   line-height: 1.6;
+  overflow: hidden;
 }
 
+/* L'image du décor prend tout l'écran */
 #visual-novel {
   position: relative;
-  min-height: calc(100vh - 420px);
-  margin: 20px auto;
-  background: #222;
+  width: 100%;
+  height: 100vh;
+  background-color: #222;
+  background-size: cover;
+  background-position: center;
+  image-rendering: pixelated;
+  transition: background-color 1s;
 }
 
+/* Description de la scène : en haut à gauche, par-dessus l'image */
 #scene {
-  margin: 24px 0;
-  font-size: 1.1rem;
+  position: fixed;
+  top: 16px;
+  left: 3%;
+  max-width: 55%;
+  z-index: 7;
+  margin: 0;
+  padding: 10px 14px;
+  background: rgba(15, 14, 15, 0.85);
+  border: 1px solid #d8c8a5;
+  font-size: 1rem;
+}
+
+#scene:empty {
+  display: none;
+}
+
+/* Choix : à droite, au-dessus de la boîte du Narrateur */
+#choix {
+  position: fixed;
+  right: 4%;
+  bottom: 170px;
+  width: min(520px, 80%);
+  z-index: 7;
+}
+
+button {
+  display: block;
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px;
+  background: rgba(15, 14, 15, 0.92);
+  color: #eee;
+  border: 1px solid #ffb347;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:hover,
+button:focus-visible {
+  background: #ffb347;
+  color: #111;
 }
 
 #jauge {
@@ -30,24 +78,6 @@ body {
   background: #111;
   color: #ffb347;
   border: 1px solid #ffb347;
-}
-
-button {
-  display: block;
-  width: 100%;
-  margin: 10px 0;
-  padding: 12px;
-  background: #222;
-  color: #eee;
-  border: 1px solid #ffb347;
-  font: inherit;
-  cursor: pointer;
-}
-
-button:hover,
-button:focus-visible {
-  background: #ffb347;
-  color: #111;
 }
 
 /* Boîte de dialogue */
@@ -134,5 +164,16 @@ button:focus-visible {
     bottom: 16px;
     width: 78px;
     height: 90px;
+  }
+
+  #choix {
+    left: 3%;
+    right: 3%;
+    width: auto;
+    bottom: 140px;
+  }
+
+  #scene {
+    max-width: 60%;
   }
 }
