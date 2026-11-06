@@ -252,4 +252,37 @@ function recommencer() {
   intro();
 }
 
-intro();
+const phrasesPrologue = [
+  "Il y a longtemps, quelque chose est arrivé dans cette maison.",
+  "Tu ne sais plus quand. Tu ne sais plus comment.",
+  "Ou plutôt, tu te forces à oublier ce passé douloureux.",
+  "Tout ce dont tu te souviens, c'est cette endroit, et ton petit frère Noé..",
+  "Tu as déménagé il y a bien longtemps.",
+  "Mais alors pourquoi être de retour à cet endroit ?",
+  "Vos choix determineront le cours de l'histoire.",
+  "Et attention a qui vous faites"
+];
+
+function prologue() {
+  silence();
+  const scene = document.getElementById("visual-novel");
+  scene.style.backgroundImage = "none";
+  scene.style.backgroundColor = "#000";
+  prologueSuite(0);
+}
+
+function prologueSuite(i) {
+  const suite = (i < phrasesPrologue.length - 1)
+    ? { texte: "Continuer", action: () => prologueSuite(i + 1) }
+    : { texte: "Entrer dans la maison", action: finPrologue };
+
+  afficher(phrasesPrologue[i], [suite]);
+  document.getElementById("scene").classList.add("prologue");
+}
+
+function finPrologue() {
+  document.getElementById("scene").classList.remove("prologue");
+  intro();
+}
+
+prologue();
