@@ -78,14 +78,6 @@ function afficher(description, choix) {
     zone.appendChild(b);
   }
 
-  const vraisChoix = choix.some(
-    c => c.texte !== "Continuer" && c.texte !== "Commencer"
-  );
-
-  if (vraisChoix) {
-    document.getElementById("personnage").style.display = "flex";
-  }
-
   majJauge();
 }
 
@@ -251,8 +243,8 @@ function finNarrateur() {
 }
 
 function aSuivre() {
-  afficher("À SUIVRE...", [{ texte: "Rejouer", action: recommencer }]);
   silence();
+  afficher("À SUIVRE...", [{ texte: "Rejouer", action: recommencer }]);
 }
 
 function recommencer() {
